@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Issue{% endblock title %}
+
+{% block content %}
+<h1>Posts</h1>
+{% for post in post_list %}
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ issue.summary | truncatechars:150 }}</h5>
+      <small>Created by {{ issue.author }} | on: {{ issue.created_on }}</small>
+      <p class="card-text">{{ post.body|truncatechars:500 }}</p>
+      <a href="{% url 'detail' issue.id %}" class="card-link">Continue Reading</a>
+    </div>
+  </div>
+  <br />
+{% endfor %}
+{% endblock content %}
+
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ issue.summary | truncatechars:150 }}</h5>
+      <small class="card-title">{{ issue.reporter }}</small>
+      <p class="card-text">{{ issue.description | truncatechars:250 }}</p>
+      
+     </div>
+     <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ issue.summary | truncatechars:150 }}</h5>
+        <small class="card-title">{{ issue.reporter }}</small>
+        <p class="card-text">{{ issue.description | truncatechars:250 }}</p>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ issue.summary | truncatechars:150 }}</h5>
+        <small class="card-title">{{ issue.reporter }}</small>
+        <p class="card-text">{{ issue.description | truncatechars:250 }}</p>
+    </div>
+
+  <br />
+{% endfor %}
+
+{% endblock content %}
