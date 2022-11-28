@@ -2,6 +2,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
+
 from django.urls import reverse_lazy
 from accounts.models import Role, Team, CustomUser
 from .models import Issue, Status, Priority
@@ -12,7 +13,7 @@ class BoardView(LoginRequiredMixin, ListView):
 
     def populate_issue_list(self, name, status, reporter, context):
         context[name] = Issue.objects.filter(
-            status=status,
+            status=status
         ).filter(
             reporter=reporter
         ).order_by(
@@ -25,17 +26,15 @@ class BoardView(LoginRequiredMixin, ListView):
         to_do_status = Status.objects.get(name='To Do')
         in_p_status = Status.objects.get(name='In Progress')
         done_status = Status.objects.get(name='Done')
-        
         team = self.request.user.team
         role = Role.objects.get(name='Product Owner')
         product_owner = CustomUser.objects.filter(
-            role=role).get(team=team)
+                role=role).get(team=team)          
         self.populate_issue_list('to_do_issues', to_do_status, product_owner, context)
         self.populate_issue_list('in_p_issues', in_p_status, product_owner, context)
         self.populate_issue_list('done_list', done_status, product_owner, context)
         return context
 
-       
 
 class IssueDetailView(LoginRequiredMixin, DetailView):
     template_name = 'issues/detail.html'
@@ -56,13 +55,17 @@ class IssueUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Issue
     fields = ['summary', 'description', 'priority', 'status', 'assignee']
     
-    def form_valid(self, form):
-        form.instance.reporter = self.request.user
-        return super().form_valid(form)
+    def test_func(self):
+        issue = self.get_object()
+        return self.request.user == issue.reporter
 
-class IssueDeleteView(DeleteView):
+class IssueDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = 'issues/delete.html'
     model = Issue
     success_url = reverse_lazy('board')
+
+    def test_func(self):
+        issue = self.get_object()
+        return self.request.user == issue.reporter
 
 # Create your views here.

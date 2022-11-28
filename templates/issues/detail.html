@@ -13,9 +13,9 @@
 <p><b>Description</b></p>
 <p>{{ issue.description }}</p>
 {% if user.username == issue.reporter.username %}
-<p></p>
-    <a href="{% url 'edit_issue' issue.id %}" class="btn btn-warning"><i class="bi bi-pencil-square"></i>Edit</a>
-    <a href="{% url 'delete_issue' issue.id %}" class="btn btn-danger"><i class="bi bi-trash"></i>Delete</a>
+<p>
+    <a href="{% url 'edit_issue' issue.id %}" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
+    <a href="{% url 'delete_issue' issue.id %}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
 </p>
 {% endif %}
 {% endblock content %}
