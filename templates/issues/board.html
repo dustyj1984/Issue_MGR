@@ -3,42 +3,57 @@
 {% block title %}Issue{% endblock title %}
 
 {% block content %}
-<h1>Posts</h1>
-{% for post in post_list %}
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">{{ issue.summary | truncatechars:150 }}</h5>
-      <small>Created by {{ issue.author }} | on: {{ issue.created_on }}</small>
-      <p class="card-text">{{ post.body|truncatechars:500 }}</p>
-      <a href="{% url 'detail' issue.id %}" class="card-link">Continue Reading</a>
+<h1><u>My Booard</u></h1>
+<div class="row board-row">
+  <div class="col board-col">
+    <h3>To do</h3>
+    <div class="row board-row">
+      {% for issue in to_do_list %}
+      <a href="{% url 'issue_detail' issue.id %}">
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ issue.summary | truncatechars:150 }}</h5>
+          <small>Reported by: {{ issue.reporter }}</small>
+          <p class="card-text">{{ issue.description | truncatechars:250 }}</p>
+        </div>
+      </div>
+      </a>
+      {% endfor %}
     </div>
   </div>
-  <br />
-{% endfor %}
-{% endblock content %}
-
-
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">{{ issue.summary | truncatechars:150 }}</h5>
-      <small class="card-title">{{ issue.reporter }}</small>
-      <p class="card-text">{{ issue.description | truncatechars:250 }}</p>
-      
-     </div>
-     <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">{{ issue.summary | truncatechars:150 }}</h5>
-        <small class="card-title">{{ issue.reporter }}</small>
-        <p class="card-text">{{ issue.description | truncatechars:250 }}</p>
+  <div class="col board-col">
+    <h3>In Progress</h3>
+    <div class="row board-row">
+        {% for issue in in_p_list %}
+        <a href="{% url 'issue_detail' issue.id %}">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ issue.summary | truncatechars:150 }}</h5>
+            <small>Reported by: {{ issue.reporter }}</small>
+            <p class="card-text">{{ issue.description | truncatechars:250 }}</p>
+          </div>
+        </div>
+        </a>
+        {% endfor %}
     </div>
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">{{ issue.summary | truncatechars:150 }}</h5>
-        <small class="card-title">{{ issue.reporter }}</small>
-        <p class="card-text">{{ issue.description | truncatechars:250 }}</p>
+  </div>
+  
+  <div class="col board-col">
+    <h3>Done</h3>
+    <div class="row board-row">
+        {% for issue in done_list %}
+        <a href="{% url 'issue_detail' issue.id %}">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ issue.summary | truncatechars:150 }}</h5>
+            <small>Reported by: {{ issue.reporter }}</small>
+            <p class="card-text">{{ issue.description | truncatechars:250 }}</p>
+          </div>
+        </div>
+        </a>
+        {% endfor %}
     </div>
-
-  <br />
-{% endfor %}
+  </div>
 
 {% endblock content %}

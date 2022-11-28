@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>Delete Issue/h1>
-<p>Are you sure want delete "{{ post.title }}"?</p>
+<p>Are you sure want delete "{{ post.summary | truncatechars:100 }}"?</p>
 <form method= "POST">
     {% csrf_token %}
     <input type="submit" value="Confirm" class="btn btn-danger">
